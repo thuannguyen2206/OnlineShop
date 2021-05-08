@@ -1,0 +1,93 @@
+﻿
+@model List<OnlineShop.Models.CartItem>
+@{
+    ViewBag.Title = "Giỏ hàng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    #cart {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+        #cart td, #cart th {
+            border-bottom: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        #cart tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        #cart tr:hover {
+            background-color: #ddd;
+        }
+
+        #cart th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+
+            text-align: left;
+            align-items:center;
+            background-color: #4CAF50;
+            color: white;
+        }
+</style>
+
+@section jsFooter{
+    <script src="~/Design/client/js/controller/cart.js"></script>
+}
+
+@if (Model.Count > 0)
+{
+    <div class="table-responsive">
+        <table id="cart" class="table" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Mã SP</th>
+                    <th>Tên SP</th>
+                    <th>Ảnh SP</th>
+                    <th>Số lượng</th>
+                    <th>Đơn giá</th>
+                    <th>Thành tiền</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @{ double total = 0;}
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.product.id</td>
+                        <td>@item.product.name</td>
+                        <td><img src="@item.product.imageLocation" style="width:80px" /></td>
+                        <td><input type="text" class="txtQuantity" data-id="@item.product.id" value="@item.quantity" /></td>
+                        <td>@item.product.price.GetValueOrDefault(0).ToString("N0")</td>
+                        <td>@((item.product.price.GetValueOrDefault(0) * item.quantity).ToString("N0") )</td>
+                        <td><a href="#" data-id="@item.product.id" class="btn-delete">Xóa</a></td>
+                    </tr>
+                    total = total + item.product.price.GetValueOrDefault(0) * item.quantity;
+                }
+            </tbody>
+        </table>
+    </div>
+    <hr />
+    <div style="display:block; float:right; font-size:18px;">
+        <p><strong>Tổng cộng: </strong>@total.ToString("N0") VNĐ</p>
+    </div>
+    <br />
+    <div>
+        <button id="btnContinue" class="btn btn-primary">Tiếp tục mua hàng</button>
+        <button id="btnUpdate" class="btn btn-primary">Cập nhật giỏ hàng</button>
+        <button id="btnDeleteAll" class="btn btn-primary">Xóa giỏ hàng</button>
+        <button id="btnPayment" class="btn btn-primary">Thanh toán</button>
+    </div> 
+}
+else
+{
+    <h2>Giỏ hàng trống</h2>
+}
+
+
+

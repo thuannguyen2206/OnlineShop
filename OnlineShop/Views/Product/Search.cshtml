@@ -1,0 +1,42 @@
+﻿@model PagedList.IPagedList<MyDatabase.EF.Product>
+@using PagedList;
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Kết quả tìm kiếm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<div class="content">
+    <div class="content_top">
+        <div class="heading">
+            <h3>Kết quả tìm kiếm theo từ khóa: @ViewBag.Keyword</h3>
+        </div>
+        <div class="see">
+            <p><a href="#">Xem tất cả</a></p>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="section group">
+        @foreach (var item in Model)
+        {
+            var url= "/chi-tiet/" + item.metaTitle + "-" + item.id;
+            <div class="grid_1_of_4 images_1_of_4">
+                <a href="@url"><img src="@item.imageLocation" alt="" /></a>
+                <h2>@item.name</h2>
+                <div class="price-details">
+                    <div class="price-number">
+                        <p><span class="rupees">@(item.price > 0 ? item.price.Value.ToString("N0") + " VNĐ" : "Liên hệ")</span></p>
+                    </div>
+                    <div class="add-cart">
+                        <h4><a href="/gio-hang/@item.id">Thêm vào giỏ</a></h4>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+
+            </div>
+        }
+    </div>
+    @Html.PagedListPager(Model, page => Url.Action("Search", new { page , @keyword= @ViewBag.Keyword }))
+</div>
+

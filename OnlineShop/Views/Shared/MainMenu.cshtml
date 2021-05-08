@@ -1,0 +1,11 @@
+﻿@model List<MyDatabase.EF.Menu>
+
+<div class="menu">
+    <ul>
+        @foreach (var item in Model)
+        {
+            <li><a href="@item.link" target="@item.target">@item.name</a></li>
+        }
+        <div class="clear"></div>
+    </ul>
+</div>

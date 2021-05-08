@@ -1,0 +1,75 @@
+﻿@model MyDatabase.EF.Slide
+
+@{
+    ViewBag.Title = "Tạo mới Slide";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+
+@section header{Tạo mới Slide}
+@section jsFooter{
+    <script>
+        $("#btnSelectImage").on("click", function (e) {
+            e.preventDefault();
+            var finder = new CKFinder();
+            finder.selectActionFunction = function (url) {
+                $("#txtImage").val(url);
+            };
+            finder.popup();
+        });
+
+        var editor = CKEDITOR.replace("txtContent", {
+            customConfig: "/Design/admin/js/plugins/ckeditor/config.js"
+        });
+    </script>
+}
+
+
+@using (Html.BeginForm("Create", "Slide", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group row">
+            <label class="control-label col-md-2">Hình ảnh</label>
+            <div class="col-md-5">
+                @Html.TextBoxFor(model => model.imageLocation, new { @class = "form-control", @id = "txtImage" })
+                <a id="btnSelectImage" href="#">Chọn ảnh</a>
+                @Html.ValidationMessageFor(model => model.imageLocation, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="control-label col-md-2">Thứ tự hiển thị</label>
+            <div class="col-md-5">
+                @Html.TextBoxFor(model => model.displayOrder, new { @class = "form-control", @type = "number", @min="0", @max="100", @style = "width: 300px;" })
+                @Html.ValidationMessageFor(model => model.displayOrder, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="control-label col-md-2">Chi tiết</label>
+            <div class="col-md-5">
+                @Html.TextAreaFor(model => model.descriptions, new { @class = "form-control", @style = "height: 100px;", @id = "txtContent" })
+                @Html.ValidationMessageFor(model => model.descriptions, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="control-label col-md-2">Trạng thái</label>
+            <div class="col-md-5">
+                @Html.CheckBoxFor(model => model.status)
+                @Html.ValidationMessageFor(model => model.status, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-md-2"></label>
+            <div class="col-md-5">
+                <button type="submit" class="btn btn-primary">Tạo mới</button>
+            </div>
+        </div>
+    </div>
+}

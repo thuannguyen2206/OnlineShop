@@ -1,0 +1,86 @@
+﻿@model PagedList.IPagedList<MyDatabase.EF.Feedback>
+@using PagedList;
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Quản lý phản hồi";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section header{ Danh sách phản hồi }
+
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary" style="display:inline;">Phản hồi</h6>
+    </div>
+    <div class="card-body">
+        @using (Html.BeginForm("Index", "Feedback", FormMethod.Get, new { @style = "display:inline;" }))
+        {
+            <div class="row">
+                <div class="col-sm-12 col-md-6">
+                    <div class="dataTables_length" id="dataTable_length">
+                        <label>
+                            Xem
+                            @Html.DropDownList("pageSize", (IEnumerable<SelectListItem>)ViewBag.PageSizes, new { @class = "form-control form-control-sm", @style = "width: 100px; display: inline;" })
+                            <input type="submit" value="Xem" />
+                        </label>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <div id="dataTable_filter" class="dataTables_filter">
+                        <label>
+                            <input type="search" value="@ViewBag.Search" name="keyword" class="form-control form-control-sm" placeholder="Tìm kiếm..." aria-controls="dataTable">
+                            <input type="submit" value="Tìm" />
+                        </label>
+                    </div>
+                </div>
+            </div>
+        }
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Tên người gửi</th>
+                        <th>STĐ</th>
+                        <th>Email</th>
+                        <th>Địa chỉ</th>
+                        <th>Ngày gửi</th>
+                        <th>Nội dung</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr id="row_@item.id">
+                            <td>
+                                @item.name
+                            </td>
+                            <td>
+                                @item.phone
+                            </td>
+                            <td>
+                                @item.email
+                            </td>
+                            <td>
+                                @item.address
+                            </td>
+                            <td>
+                                @item.createDate
+                            </td>
+                            <td>
+                                @item.content
+                            </td>
+                            <td>
+                                <a href="@Url.Action("Delete", "Feedback", new { id = item.id })">
+                                    <span style="font-size:15px;">Xóa</span>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            @Html.PagedListPager(Model, page => Url.Action("Index", new { page, @searchText = @ViewBag.Search, pageSize = @ViewBag.PageSize }))
+        </div>
+    </div>
+</div>

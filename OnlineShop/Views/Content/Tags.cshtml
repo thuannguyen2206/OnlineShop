@@ -1,0 +1,32 @@
+﻿@model PagedList.IPagedList<MyDatabase.EF.Content>
+@using PagedList;
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Tags";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var tag = (MyDatabase.EF.Tag)ViewBag.Tag;
+}
+
+<div class="content">
+    <div class="content_top">
+        <div class="heading">
+            <h3>@tag.name</h3>
+        </div>
+        <div class="clear"></div>
+    </div>
+    @foreach (var item in Model)
+    {
+        <div class="image group">
+            <div class="grid images_3_of_1">
+                <img src="@item.imageLocation" alt="Hình minh họa" style="width:330px; height: 300px;" />
+            </div>
+            <div class="grid news_desc">
+                <h3><a href="/tin-tuc/@item.metaTitle-@item.id">@item.name</a></h3>
+                <h4>Posted on @item.createDate by <span><a href="#">@item.createBy</a></span></h4>
+                @item.descriptions
+            </div>
+        </div>
+    }
+    @Html.PagedListPager(Model, page => Url.Action("Tags", new { page }))
+</div>
+

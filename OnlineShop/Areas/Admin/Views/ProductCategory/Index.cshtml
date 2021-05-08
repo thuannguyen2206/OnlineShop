@@ -1,0 +1,88 @@
+﻿@model PagedList.IPagedList<MyDatabase.EF.ProductsCategory>
+@using PagedList;
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Quản lý danh mục sản phầm";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section header{ Danh mục sản phẩm }
+
+@section jsFooter{
+    <script src="~/Design/admin/js/controller/userController.js"></script>
+}
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary" style="display:inline;">Danh mục sản phẩm</h6>
+        <span style="float:right;">@Html.ActionLink("Thêm mới", "Create", "ProductCategory")</span>
+    </div>
+    <div class="card-body">
+        @using (Html.BeginForm("Index", "ProductCategory", FormMethod.Get, new { @style = "display:inline;" }))
+        {
+            <div class="row">
+                <div class="col-sm-12 col-md-6">
+                    <div class="dataTables_length" id="dataTable_length">
+                        <label>
+                            Xem
+                            @Html.DropDownList("pageSize", (IEnumerable<SelectListItem>)ViewBag.PageSizes, new { @class = "form-control form-control-sm", @style = "width: 100px; display: inline;" })
+                            <input type="submit" value="Xem" />
+                        </label>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <div id="dataTable_filter" class="dataTables_filter">
+                        <label>
+                            <input type="search" value="@ViewBag.Search" name="searchText" class="form-control form-control-sm" placeholder="Tìm kiếm..." aria-controls="dataTable">
+                            <input type="submit" value="Tìm" />
+                        </label>
+                    </div>
+                </div>
+            </div>
+        }
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Tên danh mục</th>
+                        <th>Tiêu đề</th>
+                        <th>Ngày tạo</th>
+                        <th>Trạng thái</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr id="row_@item.id">
+                            <td>
+                                @Html.DisplayFor(modelItem => item.name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.seoTitle)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.createDate)
+                            </td>
+                            <td>
+                                <a href="#" class="btn-active" data-id="@item.id">@(item.status ? "Kích hoạt" : "Khóa")</a>
+                            </td>
+                            <td>
+                                <a href="@Url.Action("Update", "ProductCategory", new { id = item.id })">
+                                    <span style="font-size:15px;">Sửa</span>
+                                </a> |
+                                @Ajax.ActionLink("Xóa", "Delete", new { @id = item.id }, new AjaxOptions
+                           {
+                               Confirm = "Bạn có chắc muốn xóa tài khoản này?",
+                               OnComplete = "$('#row_" + @item.id + "').remove()",
+                               HttpMethod = "Delete"
+                           })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            @Html.PagedListPager(Model, page => Url.Action("Index", new { page, @searchText = @ViewBag.Search, pageSize = @ViewBag.PageSize }))
+        </div>
+    </div>
+</div>

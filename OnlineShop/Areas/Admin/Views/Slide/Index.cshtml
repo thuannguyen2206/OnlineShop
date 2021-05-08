@@ -1,0 +1,58 @@
+﻿@model List<MyDatabase.EF.Slide>
+
+@{
+    ViewBag.Title = "Quản lý Slide";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section header{ Danh sách Slide }
+
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary" style="display:inline;">Slide</h6>
+        <span style="float:right;">@Html.ActionLink("Thêm mới", "Create", "Slide")</span>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Hình ảnh</th>
+                        <th>Thứ tự hiển thị</th>
+                        <th>Mô tả</th>
+                        <th>Trạng thái</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr id="row_@item.id">
+                            <td>
+                                <img src="@item.imageLocation" style="width:150px; height:120px" />
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.displayOrder)
+                            </td>
+                            <td>
+                                @Html.Raw(item.descriptions)
+                            </td>
+                            <td>
+                                <a href="#" class="btn-active" data-id="@item.id">@(item.status ? "Kích hoạt" : "Khóa")</a>
+                            </td>
+                            <td>
+                                <a href="@Url.Action("Update", "Slide", new { id = item.id })">
+                                    <span style="font-size:15px;">Sửa</span>
+                                </a> |
+                                <a href="@Url.Action("Delete", "Slide", new { id = item.id })">
+                                    <span style="font-size:15px;">Xóa</span>
+                                </a> 
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

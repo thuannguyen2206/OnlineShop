@@ -1,0 +1,73 @@
+﻿@model MyDatabase.EF.Menu
+
+@{
+    ViewBag.Title = "Tạo mới Menu";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+
+@section header{Cập nhật Menu}
+
+@using (Html.BeginForm("Update", "Menu", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group row">
+            <label class="control-label col-md-2">Tên menu</label>
+            <div class="col-md-5">
+                @Html.TextBoxFor(model => model.name, new { @class = "form-control", @style = "width: 400px;" })
+                @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="control-label col-md-2">Đường dẫn (link)</label>
+            <div class="col-md-5">
+                @Html.TextBoxFor(model => model.link, new { @class = "form-control", @style = "width: 400px;" })
+                @Html.ValidationMessageFor(model => model.link, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="control-label col-md-2">Target</label>
+            <div class="col-md-5">
+                @Html.TextBoxFor(model => model.target, new { @class = "form-control", @style = "width: 400px;" })
+                @Html.ValidationMessageFor(model => model.target, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="control-label col-md-2">Loại menu</label>
+            <div class="col-md-5">
+                @Html.DropDownListFor(model => model.typeID, ViewBag.ListTypeMenuID as SelectList, new { @class = "form-control", @style = "width: 400px;" })
+                @Html.ValidationMessageFor(model => model.displayOrder, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="control-label col-md-2">Thứ tự hiển thị</label>
+            <div class="col-md-5">
+                @Html.TextBoxFor(model => model.displayOrder, new { @class = "form-control", @type = "number", @min = "0", @max = "100", @style = "width: 400px;" })
+                @Html.ValidationMessageFor(model => model.displayOrder, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="control-label col-md-2">Trạng thái</label>
+            <div class="col-md-5">
+                @Html.CheckBoxFor(model => model.status)
+                @Html.ValidationMessageFor(model => model.status, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-md-2"></label>
+            <div class="col-md-5">
+                <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+            </div>
+        </div>
+    </div>
+}

@@ -1,0 +1,11 @@
+﻿@model List<OnlineShop.Models.CartItem>
+<div class="cart">
+    <p>
+        <span>@Html.ActionLink("Giỏ hàng", "Index", "Cart")</span><div id="dd" class="wrapper-dropdown-2">
+            : @Model.Count sản phẩm
+            <ul class="dropdown">
+                <li>Bạn có @Model.Count sản phẩm trong giỏ.</li>
+            </ul>
+        </div>
+    </p>
+</div>

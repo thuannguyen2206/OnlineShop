@@ -1,0 +1,80 @@
+﻿@model MyDatabase.EF.ProductsCategory
+
+@{
+    ViewBag.Title = "Thêm danh mục sản phẩm";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section header{ Thêm mới danh mục sản phẩm}
+
+@using (Html.BeginForm("Create", "ProductCategory", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group row">
+            <label class="control-label col-md-2">Tên danh mục</label>
+            <div class="col-md-5">
+                @Html.TextBoxFor(model => model.name, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="control-label col-md-2">Tiêu đề alias</label>
+            <div class="col-md-5">
+                @Html.TextBoxFor(model => model.metaTitle, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.metaTitle, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="control-label col-md-2">Tiêu đề SEO</label>
+            <div class="col-md-5">
+                @Html.TextBoxFor(model => model.seoTitle, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.seoTitle, "", new { @class = "text-danger" })
+            </div>
+        </div> 
+
+        <div class="form-group row">
+            <label class="control-label col-md-2">Từ khóa</label>
+            <div class="col-md-5">
+                @Html.TextBoxFor(model => model.metaKeyword, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.metaKeyword, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="control-label col-md-2">Thứ tự</label>
+            <div class="col-md-5">
+                @Html.TextBoxFor(model => model.displayOrder, null, new { @class = "form-control", @type = "number", @min = "0", @max = "10000", @style = "width: 400px;" })
+                @Html.ValidationMessageFor(model => model.displayOrder, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="control-label col-md-2">Danh mục cha</label>
+            <div class="col-md-5">
+                @Html.DropDownListFor(model => model.parentID, ViewBag.ListCategory as SelectList, "--Chọn danh mục--", new { @class = "form-control", @style = "width: 400px;" })
+                @Html.ValidationMessageFor(model => model.parentID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="control-label col-md-2">Trạng thái</label>
+            <div class="col-md-5">
+                @Html.CheckBoxFor(model => model.status)
+                @Html.ValidationMessageFor(model => model.status, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-md-2"></label>
+            <div class="col-md-5">
+                <button type="submit" class="btn btn-primary">Tạo mới</button>
+            </div>
+        </div>
+    </div>
+}

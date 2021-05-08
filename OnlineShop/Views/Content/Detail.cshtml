@@ -1,0 +1,25 @@
+﻿@model MyDatabase.EF.Content
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content">
+    <div class="content_top">
+        <div class="heading">
+            <h3>@Model.name</h3>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="section group">
+        @Html.Raw(Model.detail)
+        @{ 
+            var tags = (List<MyDatabase.EF.Tag>)ViewBag.Tags;
+            <h6 style="display:inline;">Tags:</h6>
+            foreach(var tag in tags)
+            {
+                <span><a href="/tag/@tag.id">@tag.name</a></span>
+            }
+        }
+    </div>
+</div>

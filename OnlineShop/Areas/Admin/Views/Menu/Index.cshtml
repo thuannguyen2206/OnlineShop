@@ -1,0 +1,66 @@
+﻿@model List<MyDatabase.EF.Menu>
+
+@{
+    ViewBag.Title = "Quản lý Menu";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section header{ Danh sách Menu }
+
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary" style="display:inline;">Menu</h6>
+        <span style="float:right;">@Html.ActionLink("Thêm mới", "Create", "Menu")</span>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Tên</th>
+                        <th>Link</th>
+                        <th>Thứ tự hiển thị</th>
+                        <th>Target</th>
+                        <th>Loại Menu</th>
+                        <th>Trạng thái</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr id="row_@item.id">
+                            <td>
+                                @Html.DisplayFor(modelItem => item.name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.link)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.displayOrder)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.target)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.typeID)
+                            </td>
+                            <td>
+                                <a href="#" class="btn-active" data-id="@item.id">@(item.status ? "Kích hoạt" : "Khóa")</a>
+                            </td>
+                            <td>
+                                <a href="@Url.Action("Update", "Menu", new { id = item.id })">
+                                    <span style="font-size:15px;">Sửa</span>
+                                </a> |
+                                <a href="@Url.Action("Delete", "Menu", new { id = item.id })">
+                                    <span style="font-size:15px;">Xóa</span>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
